@@ -36,7 +36,19 @@
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
 
+
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
+
+        <!-- Role -->
+        <div class="mt-4">
+            <x-input-label for="role" :value="__('Role')" />
+            {{-- <x-text-input id="role" class="block mt-1 w-full" type="text" name="role" :value="old('role')" required autofocus autocomplete="role" /> --}}
+            <select name="role" id="role" class="block mt-1 w-full">
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+            </select>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">
