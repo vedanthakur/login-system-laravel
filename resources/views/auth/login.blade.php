@@ -9,6 +9,7 @@
         <div>
             <x-input-label for="emailOrMobile" :value="__('Email/Phone')" />
             <x-text-input id="emailOrMobile" class="block mt-1 w-full" type="text" name="emailOrMobile" :value="old('emailOrMobile')" required autofocus autocomplete="username" placeholder="Enter Email or Phone" />
+            <x-input-error :messages="$errors->get('emailOrMobile')" class="mt-2" />
         </div>
         
         <!-- Password -->

@@ -9,10 +9,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                    {{-- @if ($user->role == "admin")
-                        <p>Logged in as an Admin</p>
-                    @endif --}}
+                    @php
+                        $name = Auth::user()->name;
+                        $fname = explode(" ", $name);
+                        echo __("Welcome ") . $fname[0]. ',';
+                    @endphp  
+                    @if (Auth::check() && Auth::user()->role === "admin")
+                        @include('admin.admin_dashboard')
+                    @elseif (Auth::check() && Auth::user()->role === 'user')
+                        @include('user.user_dashboard')
+                    @endif
                 </div>
             </div>
         </div>
