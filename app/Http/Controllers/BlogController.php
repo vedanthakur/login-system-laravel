@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,5 +47,16 @@ class BlogController extends Controller
         $blog->status = $request->status;
         $blog->save();
         return view('admin.add_post');
+    }
+
+    public function showBlog(string $id){
+        $blog = Blog::find($id);
+        $user_id = $blog->user_id;
+        $user = User::find($user_id);
+        $user_name = $user->name;
+        if ($blog === null) {
+            return abort(404);
+        }
+        return view("blog", ['blog' => $blog, 'user_name' => $user_name]);
     }
 }

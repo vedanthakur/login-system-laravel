@@ -45,6 +45,11 @@ Route::middleware(['auth', 'role:user'])->group(function(){
     Route::get('/user/dashboard', [UserController::class, 'UserDashboard'])->name('user.dashboard');
 });
 
-Route::get('/blog', function (Blog $blogs){
-    return view('blog', ['blogs' => $blogs]);
-})->name('blog');
+Route::get('/blogs', function (){
+    $blogs = Blog::all();
+    return view('blogs', ['blogs' => $blogs]);
+})->name('blogs');
+
+
+
+Route::get('/blog/{id}', [BlogController::class, 'showBlog'])->name('blogs');
