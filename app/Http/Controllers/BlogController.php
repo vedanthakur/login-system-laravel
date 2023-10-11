@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +18,8 @@ class BlogController extends Controller
 
     public function AddPost()
     {
-        return view('admin.add_post');
+        $categories = Category::all();
+        return view('admin.add_post', ['categories' => $categories]);
     }
 
     
@@ -33,20 +35,27 @@ class BlogController extends Controller
             'date' => 'date'
         ]);
 
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('blogImages'), $imageName);
+        try{
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('blogImages'), $imageName);
 
-        $blog = new Blog;
-        $blog->title = $request->title;
-        $blog->slug = $request->slug;
-        $blog->content = $request->content;
-        $blog->category = $request->category;
-        $blog->image = $imageName;
-        $blog->user_id = Auth::id();
-        $blog->updated_at = $request->date;
-        $blog->status = $request->status;
-        $blog->save();
-        return view('admin.add_post');
+            $blog = new Blog;
+            $blog->title = $request->title;
+            $blog->slug = $request->slug;
+            $blog->content = $request->content;
+            $blog->category = $request->category;
+            $blog->image = $imageName;
+            $blog->user_id = Auth::id();
+            $blog->updated_at = $request->date;
+            $blog->status = $request->status;
+            $blog->save();
+            $categories = Category::all();
+            return redirect()->back()->with(['success' => 'Post added successfully!!'])
+                                    ->with(['categories' => $categories]);
+        } catch(\Exception $e){
+            return redirect()->back()->with(['error' => $e->getMessage()])
+                                    ->with(['categories' => $categories]);
+        }
     }
 
     public function showBlog(string $id){
@@ -58,5 +67,29 @@ class BlogController extends Controller
             return abort(404);
         }
         return view("blog", ['blog' => $blog, 'user_name' => $user_name]);
+    }
+
+    public function addCategory(){
+        return view('admin.add_category');
+    }
+
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string',
+        ]);
+
+        try {
+            $category = new Category;
+            $category->title = $request->title;
+            $category->user_id = Auth::id();
+            $category->save();
+
+            // Return a success message.
+            return redirect()->back()->with(['success' => 'Category created successfully.']);
+        } catch (\Exception $e) {
+            // Return an error message.
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 }

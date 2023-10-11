@@ -38,6 +38,8 @@ require __DIR__.'/auth.php';
 Route::middleware(['auth', 'role:admin'])->group(function(){
     Route::get('/admin/add_post', [BlogController::class, 'AddPost'])->name('admin.add_post');
     Route::post('/admin/add_post', [BlogController::class, 'store'])->name('blog.store');
+    Route::get('/admin/add_category', [BlogController::class, 'addCategory'])->name('admin.add_category');
+    Route::post('/admin/add_category', [BlogController::class, 'storeCategory'])->name('category.store');
     Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
 });
 

@@ -20,6 +20,10 @@
                     <x-nav-link :href="route('admin.add_post')" :active="request()->routeIs('admin.add_post')">
                         {{ __('Add Blog') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('admin.add_category')" :active="request()->routeIs('admin.add_category')">
+                        {{ __('Add Category') }}
+                    </x-nav-link>
                     @endif
 
                     <x-nav-link :href="route('blog')" :active="request()->routeIs('blog')">

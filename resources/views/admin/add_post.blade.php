@@ -9,6 +9,17 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     <form action={{route('blog.store')}} method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -31,9 +42,9 @@
                                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
                                 <select name="category" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                     <option selected="">Select category</option>
-                                    <option value="Programming">Programming</option>
-                                    <option value="AI">AI</option>
-                                    <option value="Cricket">Cricket</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->title }}">{{$category->title}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -56,7 +67,7 @@
                                 <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Content
                                 </label>
-                                <textarea name="content" id="xontent" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter content"></textarea>
+                                <textarea name="content" id="content" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter content"></textarea>
                             </div>
                             
                             <div>
