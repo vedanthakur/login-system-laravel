@@ -23,7 +23,7 @@
                     @endif
 
                     <x-nav-link :href="route('blog')" :active="request()->routeIs('blog')">
-                        {{ __('Blog') }}
+                        {{ __('Blogs') }}
                     </x-nav-link>
                 </div>
             </div>
