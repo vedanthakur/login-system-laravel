@@ -59,7 +59,12 @@ class BlogController extends Controller
     }
 
     public function showBlog(string $id){
-        $blog = Blog::find($id);
+        if (is_numeric($id)) {
+            $blog = Blog::find($id);
+        } else {
+            $blog = Blog::where('slug', $id)->first();
+        }
+        // $blog = Blog::find($id);
         $user_id = $blog->user_id;
         $user = User::find($user_id);
         $user_name = $user->name;
@@ -91,5 +96,13 @@ class BlogController extends Controller
             // Return an error message.
             return redirect()->back()->with(['error' => $e->getMessage()]);
         }
+    }
+
+    public function showCategory($title){
+        $blogs = Blog::where('category', $title)->get();;
+        if ($blogs === null) {
+            return abort(404);
+        }
+        return view("category", ['blogs' => $blogs]);   
     }
 }

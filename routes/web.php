@@ -54,4 +54,7 @@ Route::get('/blogs', function (){
 
 
 
-Route::get('/blog/{id}', [BlogController::class, 'showBlog'])->name('blogs');
+Route::get('/blog/{id}', [BlogController::class, 'showBlog'])->where('id', '([0-9]+|[a-zA-Z\-]+)')
+                                                            ->name('blogs');
+
+Route::get('/category/{title}', [BlogController::class, 'showCategory']);
